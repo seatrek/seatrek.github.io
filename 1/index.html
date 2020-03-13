@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
   <link rel="shortcut icon" href="assets/images/seatrek-logo-240x120.png" type="image/x-icon">
+  <link rel="preload" href="assets/images/katharina-750x500.jpg" as="image">
   <meta name="description" content="">
   <meta name="amp-script-src" content="">
   
@@ -2279,8 +2280,37 @@ a,a:hover{
 
 </section>
 
-
-  
+<amp-analytics type="facebookpixel" id="facebook-pixel">
+    <!-- https://www.facebook.com/business/help/402791146561655 -->
+    <script type="application/json">
+    {
+        "vars": {
+            "pixelId": "2234161596704340"
+        },
+        "triggers": {
+            "trackPageview": {
+                "on": "visible",
+                "request": "pageview"
+            },
+            "formSubmit": {
+                "on": "amp-form-submit-success",
+                "request": "event",
+                "vars": {
+                    "eventName": "Lead"
+                }
+            },
+            "buttonClick": {
+                "selector":".btn-primary",
+                "on": "click",
+                "request": "event",
+                "vars": {
+                    "eventName": "Lead"
+                }
+            }
+        }
+    }
+    </script>
+</amp-analytics>
   
 </body>
 </html>
