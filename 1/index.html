@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="amp-script-src" content="">
   
-  <title>Home</title>
+  <title>Sailing Adventures - SeaTrek</title>
   
 <link rel="canonical" href="./">
  <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style>
@@ -17,6 +17,13 @@
 <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&subset=cyrillic&display=swap" rel="stylesheet">
  
  <style amp-custom> 
+:root {
+    --color-primary: #005AF0;
+    --color-text-light: #fff;
+
+    --space-1: .5rem;  /* 8px */
+    --space-2: 1rem;   /* 16px */
+}
 .gdpr-block{
     padding: 10px;
     font-size: 14px;
@@ -122,7 +129,7 @@ html,body{
     width: 100%;
 }
 .mbr-section-subtitle{
-    line-height: 1.3;
+    line-height: 1.2;
     width: 100%;
 }
 .mbr-text{
@@ -244,7 +251,7 @@ html:not(.is-builder) amp-img > a{
 .is-builder amp-youtube .temp-amp-sizer,.is-builder amp-vimeo .temp-amp-sizer{
     position: static;
 }
-.mobirise-spinner{
+.template-spinner{
     position: absolute;
     top: 50%;
     left: 40%;
@@ -252,7 +259,7 @@ html:not(.is-builder) amp-img > a{
     -webkit-transform: translate3d(-50%,-50%,0);
     z-index: 4;
 }
-.mobirise-spinner em{
+.template-spinner em{
     width: 24px;
     height: 24px;
     background: #3ac;
@@ -260,13 +267,13 @@ html:not(.is-builder) amp-img > a{
     display: inline-block;
     -webkit-animation: slide 1s infinite;
 }
-.mobirise-spinner em:nth-child(1){
+.template-spinner em:nth-child(1){
     -webkit-animation-delay: 0.1s;
 }
-.mobirise-spinner em:nth-child(2){
+.template-spinner em:nth-child(2){
     -webkit-animation-delay: 0.2s;
 }
-.mobirise-spinner em:nth-child(3){
+.template-spinner em:nth-child(3){
     -webkit-animation-delay: 0.3s;
 }
 @-moz-keyframes slide{
@@ -317,7 +324,7 @@ html:not(.is-builder) amp-img > a{
         -webkit-transform: scale(1);
     }
 }
-.mobirise-loader .amp-active > div{
+.template-loader .amp-active > div{
     display: none;
 }
 .mbr-flex{
@@ -363,10 +370,10 @@ section,.container,.container-fluid{
 }
 .mbr-fullscreen{
     display: flex;
-    align-items: center;
+    /*align-items: center;*/
     height: 100vh;
     min-height: 100vh;
-    padding: 3rem 0;
+    padding: 1.5rem 0;
 }
 .container{
     padding: 0 1rem;
@@ -1069,7 +1076,7 @@ amp-image-lightbox .video-block,.lightbox .video-block{
 }
 div[submit-success] > *,div[submit-error] > *{
     padding: 15px;
-    margin-bottom: 1rem;
+    margin-top: 1rem;
 }
 .form-block{
     z-index: 1;
@@ -1510,7 +1517,7 @@ div[submit-error] > *{
 }
 .display-2{
     font-family: 'Roboto',sans-serif;
-    font-size: 2.2rem;
+    font-size: 2.1rem;
 }
 .display-4{
     font-family: 'Roboto',sans-serif;
@@ -1903,13 +1910,13 @@ a,a:hover{
 .mbr-plan-header.bg-danger .mbr-plan-subtitle,.mbr-plan-header.bg-danger .mbr-plan-price-desc{
     color: #e0e0e0;
 }
-.mobirise-spinner em:nth-child(1){
+.template-spinner em:nth-child(1){
     background: #4ea2e3;
 }
-.mobirise-spinner em:nth-child(2){
+.template-spinner em:nth-child(2){
     background: #4addff;
 }
-.mobirise-spinner em:nth-child(3){
+.template-spinner em:nth-child(3){
     background: #0dcd7b;
 }
 #scrollToTopMarker{
@@ -1927,10 +1934,18 @@ a,a:hover{
 }
 .cid-rT0KvDBJNK{
     background-image: url("assets/images/katharina-750x500.jpg");
+    background-position: 70% 80%;
 }
 .cid-rT0KvDBJNK .mbr-section-title{
     color: #00495b;
+    text-transform: uppercase;
 }
+
+.cid-rT0KvDBJNK .mbr-section-subtitle{
+    color: #ffffff;
+    text-transform: uppercase;
+}
+
 .cid-rT0NcGslK8{
     padding-top: 90px;
     padding-bottom: 90px;
@@ -2015,16 +2030,64 @@ a,a:hover{
 .cid-rT0NAMo84y amp-img img{
     object-fit: contain;
 }
- .engine{
-    position: absolute;
-    text-indent: -2400px;
-    text-align: center;
-    padding: 0;
-    top: 0;
-    left: -2400px;
-}
 [class*="-iconfont"]{
     display: inline-flex;
+}
+
+.sample-selector:not([disabled]) amp-img[option][selected]:not([disabled]) {
+    outline-color: var(--color-primary);
+    outline-width: 4px;
+}
+.sample-selector amp-img,
+.sample-selector .divider {
+    margin-right: var(--space-2);
+}
+/* disables build-in browser highlights */
+.sample-selector *:focus {
+    outline: none;
+}
+.sample-selector[disabled],
+.sample-selector [disabled] {
+    opacity: 0.5;
+}
+.sample-selector .divider {
+    border-right: 2px solid var(--color-primary);
+    height: 60px;
+}
+.radio-selector [option][selected] {
+    outline: none;
+}
+.radio-selector [option] {
+    display: flex;
+    align-items: center;
+}
+.radio-selector [option]:before {
+    transition: background 0.25s ease-in-out;
+    content: "";
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    margin: var(--space-1);
+    border-radius: 100%;
+    border: solid 1px var(--color-primary);
+    vertical-align: middle;
+    line-height: 1.5;
+}
+.radio-selector [option][selected]:before {
+    text-align: center;
+    content: "✓";
+    color: var(--color-text-light);
+    background-color: var(--color-primary);
+}
+.sample-selector,
+.radio-selector,
+.sample-selector ~ div,
+.radio-selector ~ div {
+    padding: var(--space-1);
+}
+.sample-selector ~ button,
+.radio-selector ~ button {
+    margin: var(--space-2);
 }
 </style>
  
@@ -2033,7 +2096,7 @@ a,a:hover{
   <script async custom-element="amp-sidebar" src="https://cdn.ampproject.org/v0/amp-sidebar-0.1.js"></script>
   <script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
   <script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js"></script>
-  
+  <script async custom-element="amp-selector" src="https://cdn.ampproject.org/v0/amp-selector-0.1.js"></script>
   
 </head>
 <body><amp-sidebar id="sidebar" class="cid-rT0NAMo84y" layout="nodisplay" side="right">
@@ -2066,19 +2129,19 @@ a,a:hover{
                 </a></div>
       </div>
     </amp-sidebar>
-  <section class="header4 cid-rT0KvDBJNK mbr-fullscreen" id="header4-4">
 
-    
-
+<section class="header4 cid-rT0KvDBJNK mbr-fullscreen" id="header4-4">
     <div class="container">
-        <h1 class="mbr-fonts-style mbr-section-title align-left mbr-black mbr-bold mbr-pt-1 mbr-pb-3 display-1">
-            Explore Indonesia</h1>
-        <h2 class="mbr-fonts-style mbr-section-subtitle align-left mbr-black mbr-light mbr-pb-2 display-5">Your Sailing Adventures</h2>
-        
+        <amp-img src="assets/images/seatrek-logo-240x120.png" width="240" height="120" alt="Seatrek Logo" class="template-loader"></amp-img>
+        <div class="mbr-row mbr-pt-5">
+            <h1 class="mbr-fonts-style mbr-section-title align-left mbr-black mbr-light mbr-pt-2 display-1" style="letter-spacing: 0.15em;">Explore</h1>
+            <h1 class="mbr-fonts-style mbr-section-title align-left mbr-black mbr-light display-1">Indonesia</h1>
+            <h1 class="mbr-fonts-style mbr-section-subtitle align-left mbr-black mbr-light mbr-pb-2 display-1" style="letter-spacing: 0.5em;">Today</h1>
+        </div>
     </div>
 </section>
 
-<section class="engine"><a href="https://mobirise.info/n">free simple web templates</a></section><section class="features2 mbr-section cid-rT0L4cbGbx" id="features2-5">
+<section class="features2 mbr-section cid-rT0L4cbGbx" id="features2-5">
 
     
     
@@ -2087,9 +2150,9 @@ a,a:hover{
             <div class="card mbr-col-sm-12 mbr-col-md-6 mbr-col-lg-3 md-pb">
                 <div class="card-wrapper">
                     <div class="card-img">
-                        <amp-img src="assets/images/1-komodo-213x320.jpeg" layout="responsive" width="252.6056338028169" height="170" alt="Mobirise" class="mobirise-loader">
+                        <amp-img src="assets/images/komodo-531x366.jpg" layout="responsive" width="252.6056338028169" height="170" alt="Komodo" class="template-loader">
                             <div placeholder="" class="placeholder">
-                                <div class="mobirise-spinner">
+                                <div class="template-spinner">
                                     <em></em>
                                     <em></em>
                                     <em></em>
@@ -2109,9 +2172,9 @@ a,a:hover{
             <div class="card mbr-col-sm-12 mbr-col-md-6 mbr-col-lg-3 md-pb">
                 <div class="card-wrapper">
                     <div class="card-img">
-                        <amp-img src="assets/images/7-raja-ampat-320x213.jpg" layout="responsive" height="168" width="252.39436619718307" alt="Mobirise" class="mobirise-loader">
+                        <amp-img src="assets/images/raja-ampat-320x213.jpg" layout="responsive" height="168" width="252.39436619718307" alt="Raja Ampat" class="template-loader">
                             <div placeholder="" class="placeholder">
-                                <div class="mobirise-spinner">
+                                <div class="template-spinner">
                                     <em></em>
                                     <em></em>
                                     <em></em>
@@ -2132,9 +2195,9 @@ a,a:hover{
             <div class="card mbr-col-sm-12 mbr-col-md-6 mbr-col-lg-3">
                 <div class="card-wrapper">
                     <div class="card-img">
-                        <amp-img src="assets/images/sulawesi-320x213.jpg" layout="responsive" height="168" width="252.39436619718307" alt="Mobirise" class="mobirise-loader">
+                        <amp-img src="assets/images/sulawesi-320x213.jpg" layout="responsive" height="168" width="252.39436619718307" alt="Sulawesi" class="template-loader">
                             <div placeholder="" class="placeholder">
-                                <div class="mobirise-spinner">
+                                <div class="template-spinner">
                                     <em></em>
                                     <em></em>
                                     <em></em>
@@ -2155,9 +2218,9 @@ a,a:hover{
             <div class="card mbr-col-sm-12 mbr-col-md-6 mbr-col-lg-3 last-child">
                 <div class="card-wrapper">
                     <div class="card-img">
-                        <amp-img src="assets/images/maluku-506x338.jpg" layout="responsive" height="169" width="253.00000000000003" alt="Mobirise" class="mobirise-loader">
+                        <amp-img src="assets/images/maluku-506x338.jpg" layout="responsive" height="169" width="253.00000000000003" alt="Maluku" class="template-loader">
                             <div placeholder="" class="placeholder">
-                                <div class="mobirise-spinner">
+                                <div class="template-spinner">
                                     <em></em>
                                     <em></em>
                                     <em></em>
@@ -2166,7 +2229,7 @@ a,a:hover{
                         </amp-img>
                     </div>
                     <div class="card-box mbr-pt-4">
-                        <h4 class="card-title mbr-fonts-style align-left mbr-light display-2">
+                        <h4 class="card-title mbr-fonts-style align-left mbr-light mbr-pb-1 display-2">
                             Spice Islands</h4>
                         <p class="mbr-text mbr-fonts-style align-left display-4">
                             September - October</p>
@@ -2187,9 +2250,9 @@ a,a:hover{
         <h2 class="align-center mbr-fonts-style mbr-light display-2">I'm Interested in Trips to...</h2>
         
 
-        <div class="mbr-row mbr-jc-c mbr-pt-4">
+        <div class="mbr-row mbr-jc-c">
             <div class="mbr-col-lg-7 mbr-col-md-10 mbr-col-sm-12" data-form-type="formoid">
-                <form class="mbr-form" method="post" target="_top" action-xhr="https://formoid.net/api/amp-form/push" data-form-title="Mobirise Form"><input type="hidden" name="email" data-form-email="true" value="nXkpVOM9yFOsRWGHQR4hPrGvbo0pWq7KIoA2bJLlU3VBzFE049jpjS73KEZuytnWWwJt2jNOLRCfPuPIKVW0j4/Dyb7S1xd8jrm2V1heZENR/7SyVr2BorkMpbOgx5U+">
+                <form class="mbr-form" method="post" target="_top" action-xhr="https://formoid.net/api/amp-form/push" data-form-title="Registration Form"><input type="hidden" name="email" data-form-email="true" value="nXkpVOM9yFOsRWGHQR4hPrGvbo0pWq7KIoA2bJLlU3VBzFE049jpjS73KEZuytnWWwJt2jNOLRCfPuPIKVW0j4/Dyb7S1xd8jrm2V1heZENR/7SyVr2BorkMpbOgx5U+">
                     <div class="mbr-form-row">
                       <div submit-success="" class="mbr-col-sm-12 mbr-col-md-12">
                           <template data-form-alert="" type="amp-mustache">You have expressed your interest!</template>
@@ -2199,12 +2262,26 @@ a,a:hover{
                       </div>
                     </div>
                     <div class="mbr-form-row">
-                        <div class="field mbr-col-sm-12 mbr-col" data-for="form[data][1][1]">
+                        <div class="field mbr-col-sm-12 mbr-col-md-12 mbr-col-lg-12" data-for="form[data][2][1]">
+                            <input type="hidden" name="form[data][2][0]" value="Trips" id="form[data][2][0]-contacts2-6" data-form-field="">
+                            <div class="mbr-col-lg-7 mbr-col-md-10 mbr-col-sm-12 mbr-m-auto">
+                                <amp-selector multiple layout="container" class="radio-selector" name="form[data][2][1]"> 
+                                    <div option="Komodo">Bali to Komodo Island</div>
+                                    <div option="Raja-ampat">Raja Ampat</div>
+                                    <div option="Maluku">Maluku & The Spice Islands</div>
+                                    <div option="Sulawesi">Sulawesi</div>
+                                </amp-selector>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mbr-form-row">
+                        <div class="field mbr-col-sm-12 mbr-col" data-for="form[data][0][1]">
                             <input type="hidden" name="form[data][0][0]" value="Name" id="form[data][1][0]-contacts2-6" data-form-field="">
                             <input class="field-input display-4" type="text" name="form[data][0][1]" data-form-field="Name" placeholder="Name" required="" id="form[data][1][1]-contacts2-6">
                         </div>
-                        
-                        <div class="field mbr-col-sm-12 mbr-col" data-for="form[data][0][1]">
+                    </div>
+                   <div class="mbr-form-row">
+                        <div class="field mbr-col-sm-12 mbr-col" data-for="form[data][1][1]">
                             <input type="hidden" name="form[data][1][0]" value="Email" id="form[data][0][0]-contacts2-6" data-form-field="">
                             <input class="field-input display-4" type="email" name="form[data][1][1]" data-form-field="Email" placeholder="Email" required="" id="form[data][0][1]-contacts2-6">
                         </div>
@@ -2221,8 +2298,9 @@ a,a:hover{
     </div>
 </section>
 
-<section class="menu horizontal-menu cid-rT0NAMo84y" id="menu2-7">
 
+<section class="menu horizontal-menu cid-rT0NAMo84y" id="menu2-7">
+<!--
     
     
 
@@ -2230,9 +2308,9 @@ a,a:hover{
        <div class="menu-container container-fluid"> 
       <div class="navbar-brand">
           <span class="navbar-logo">
-              <amp-img src="assets/images/seatrek-logo-240x120.png" layout="responsive" width="100" height="50" alt="Mobirise" class="mobirise-loader">
+              <amp-img src="assets/images/seatrek-logo-240x120.png" layout="responsive" width="100" height="50" alt="Seatrek Logo" class="template-loader">
                   <div placeholder="" class="placeholder">
-                                <div class="mobirise-spinner">
+                                <div class="template-spinner">
                                     <em></em>
                                     <em></em>
                                     <em></em>
@@ -2274,6 +2352,7 @@ a,a:hover{
     </button>
         </div>
     </nav>
+-->
 
   <!-- AMP plug -->
     
