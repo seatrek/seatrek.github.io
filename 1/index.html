@@ -2098,6 +2098,12 @@ body.amp-geo-group-eea .message-non-eea,
 .radio-selector ~ button {
     margin: var(--space-2);
 }
+.sticky-header {
+	position: -webkit-sticky;  
+	position: sticky;
+	top: 0;
+    z-index: 1000;
+}
 </style>
  
   <script async  src="https://cdn.ampproject.org/v0.js"></script>
@@ -2112,39 +2118,42 @@ body.amp-geo-group-eea .message-non-eea,
 
 </head>
 <body>
-    <amp-geo layout="nodisplay">
-    </amp-geo>
 
-    <amp-sidebar id="sidebar" class="cid-rT0NAMo84y" layout="nodisplay" side="right">
-        <div class="sidebar" id="sidebar">
-            <button on="tap:sidebar.close" class="close-sidebar">
-                <span></span>
-                <span></span>
-            </button>
+<amp-geo layout="nodisplay">
+</amp-geo>
+
+<!--
+<amp-sidebar id="sidebar" class="cid-rT0NAMo84y" layout="nodisplay" side="right">
+    <div class="sidebar" id="sidebar">
+        <button on="tap:sidebar.close" class="close-sidebar">
+            <span></span>
+            <span></span>
+        </button>
+    
         
-            
-            <ul class="navbar-nav nav-dropdown" data-app-modern-menu="true"><li class="nav-item dropdown open">
-                    <a class="nav-link link text-primary dropdown-toggle display-7" data-toggle="dropdown-submenu" aria-expanded="true">
-                        Trips</a>
-                    <div class="dropdown-menu">
-                        <a class="text-primary dropdown-item display-7" href="https://seatrekbali.com">Komodo</a>
-                        <a class="text-primary dropdown-item display-7" href="https://seatrekbali.com">Raja Ampat</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link link text-primary display-7" href="https://seatrekbali.com">
-                        Services</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link link text-primary display-7" href="https://seatrekbali.com">
-                        About Us</a>
-                </li></ul>
-            
-            <div class="navbar-buttons mbr-section-btn align-center"><a class="btn btn-sm btn-primary display-7" href="https://seatrekbali.com">
-                  Contact Us
-                </a></div>
-      </div>
-    </amp-sidebar>
+        <ul class="navbar-nav nav-dropdown" data-app-modern-menu="true"><li class="nav-item dropdown open">
+                <a class="nav-link link text-primary dropdown-toggle display-7" data-toggle="dropdown-submenu" aria-expanded="true">
+                    Trips</a>
+                <div class="dropdown-menu">
+                    <a class="text-primary dropdown-item display-7" href="https://seatrekbali.com">Komodo</a>
+                    <a class="text-primary dropdown-item display-7" href="https://seatrekbali.com">Raja Ampat</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link link text-primary display-7" href="https://seatrekbali.com">
+                    Services</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link link text-primary display-7" href="https://seatrekbali.com">
+                    About Us</a>
+            </li></ul>
+        
+        <div class="navbar-buttons mbr-section-btn align-center"><a class="btn btn-sm btn-primary display-7" href="https://seatrekbali.com">
+                Contact Us
+            </a></div>
+    </div>
+</amp-sidebar>
+-->
 
 <section class="header4 cid-rT0KvDBJNK mbr-fullscreen" id="header4-4">
     <div class="container">
@@ -2161,8 +2170,6 @@ body.amp-geo-group-eea .message-non-eea,
 
 <section class="features2 mbr-section cid-rT0L4cbGbx" id="features2-5">
 
-    
-    
     <div class="container">
         <div class="mbr-row mbr-jc-c">
             <div class="card mbr-col-sm-12 mbr-col-md-6 mbr-col-lg-3 md-pb">
@@ -2262,8 +2269,6 @@ body.amp-geo-group-eea .message-non-eea,
 
 <section class="contacts2 cid-rT0NcGslK8" id="contacts2-6">
 
-    
-
     <div class="container">
         <h2 class="align-center mbr-fonts-style mbr-light display-2">I'm Interested in Trips to...</h2>
         
@@ -2318,17 +2323,24 @@ body.amp-geo-group-eea .message-non-eea,
     </div>
 </section>
 
-<section class="testimonials2 mbr-section cid-rG0L4cbFep" id="testimonials2-7">
-    <div class="mbr-m-auto mbr-pb-2" style="max-width: 320px;">
-        <amp-img
-            src="assets/images/tripadvisor-logo-640x110.png"
-            width="320"
-            height="55"
-            layout="responsive"
-            sizes="(min-width: 320px) 320px, 90vw"
-            alt="Tripadvisor Logo"
-            class="template-loader"></amp-img>
+<section class="sticky-header mbr-py-1" id="tripadvisor2-7">
+    <div class="mbr-m-auto" style="max-width: 320px;">
+        <a target="_blank" href="https://www.tripadvisor.com/Attraction_Review-g294226-d15597034-Reviews-SeaTrek_Sailing_Adventures-Bali.html?m=19905">
+            Recommended By
+            <amp-img
+                src="assets/images/tripadvisor-logo-640x110.png"
+                width="320"
+                height="55"
+                layout="responsive"
+                sizes="(min-width: 320px) 320px, 90vw"
+                alt="Tripadvisor Logo"
+                class="template-loader"></amp-img>
+        </a>
     </div>
+</section>
+
+<section class="testimonials2 mbr-section mbr-pt-1 cid-rG0L4cbFep" id="testimonials2-8">
+
     <div class="mbr-m-auto" style="max-width: 1280px;">
         <amp-img amp-fx="fade-in fly-in-left"
             data-margin-start="40%"
@@ -2442,8 +2454,15 @@ body.amp-geo-group-eea .message-non-eea,
     </div>
 </section>
 
-<section class="menu horizontal-menu cid-rT0NAMo84y" id="menu2-7">
+<section class="mbr-section" id="back2-9">
+    <div class="mbr-section-btn mbr-col-sm-12 mbr-col-md-12 mbr-col-lg-12 align-center">
+        <button on="tap:contacts2-6.scrollTo()" class="btn btn-info display-4">Back to Contact Form</button>
+    </div>
+</section>
+
 <!--
+<section class="menu horizontal-menu cid-rT0NAMo84y" id="menu2-10">
+
     <nav class="navbar navbar-dropdown navbar-expand-lg navbar-fixed-top">
        <div class="menu-container container-fluid"> 
       <div class="navbar-brand">
@@ -2492,10 +2511,8 @@ body.amp-geo-group-eea .message-non-eea,
     </button>
         </div>
     </nav>
--->
-
-  <!-- AMP plug -->
 </section>
+-->
 
 <amp-analytics type="facebookpixel" id="facebook-pixel">
     <!-- https://www.facebook.com/business/help/402791146561655 -->
