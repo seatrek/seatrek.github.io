@@ -2118,7 +2118,9 @@ body.amp-geo-group-eea .message-non-eea,
   <script async  src="https://cdn.ampproject.org/v0.js"></script>
   <script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
   <script async custom-element="amp-sidebar" src="https://cdn.ampproject.org/v0/amp-sidebar-0.1.js"></script>
+  <script async custom-element="amp-list" src="https://cdn.ampproject.org/v0/amp-list-0.1.js"></script>
   <script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
+  <script async custom-element="amp-bind" src="https://cdn.ampproject.org/v0/amp-bind-0.1.js"></script>
   <script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js"></script>
   <script async custom-element="amp-selector" src="https://cdn.ampproject.org/v0/amp-selector-0.1.js"></script>
   <script async custom-element="amp-geo" src="https://cdn.ampproject.org/v0/amp-geo-0.1.js"></script>
@@ -2130,6 +2132,100 @@ body.amp-geo-group-eea .message-non-eea,
 
 <amp-geo layout="nodisplay">
 </amp-geo>
+
+<div class="sticky-header">
+    <amp-list layout="fixed-height"
+        height="1"
+        credentials="include"
+        src="https://salesiq.zoho.com/getembeddetails.ls?widgetcode=a95bd38a15369fc3deac3225eba2b3db670708292f9f9d06a41da2e599298d6dada1889884ae71de53d16d9bfeb902d6&fetchavuid=false&fetchapilang=false&lang_browser=BROWSER_LANGUAGE&currdomain=https%3A%2F%2FSOURCE_HOST&pagetitle=TITLE"
+        single-item
+        items="."
+        binding="no">
+        <template type="amp-mustache">
+            {{#objString}}
+            <amp-state id="siqWatch"
+                credentials="omit"
+                src="https://vts.zohopublic.com/watch?x-e={{widgetobj.embedname}}&x-s={{widgetobj.screenname}}&lsid={{widgetobj.lsid}}&cpage=SOURCE_URL&ptitle=TITLE&gmttime=TIMEZONE&resolution=AVAILABLE_SCREEN_WIDTHxAVAILABLE_SCREEN_HEIGHT&lang_embed=BROWSER_LANGUAGE&con_id=TIMESTAMP&nocache=TIMESTAMP&connection_count=1">
+            </amp-state>
+            {{/objString}}
+        </template>
+    </amp-list>
+
+    <amp-list layout="fixed-height"
+        height="1"
+        credentials="include"
+        [src]="siqWatch"
+        single-item
+        items="."
+        binding="no">
+        <template type="amp-mustache">
+            {{#d}}
+            <amp-analytics>
+                <script type="application/json">
+                {
+                    "requests": {
+                        "event": "https://vts.zohopublic.com/bind?sid=${sid}&nocache=${timestamp}"
+                    },
+                    "vars": {
+                        "sid": "{{sid}}",
+                        "siq_id": "{{siq_id}}",
+                        "uvid": "{{_zldt}}"
+                    },
+                    "triggers": {
+                        "trackPageview": {
+                            "on": "visible",
+                            "request": "event",
+                            "vars": {
+                                "eventId": "pageview"
+                            },
+                            "extraUrlParams": {
+                                "data": "{\"opr\":\"ack\",\"uvid\":\"${uvid}\",\"siq_id\":\"${siq_id}\",\"event_time\":\"${timestamp}\"}",
+                                "seqno": "-1"
+                            }
+                        }
+                    },
+                    "transport": {
+                        "beacon": true,
+                        "xhrpost": false,
+                        "useBody": false,
+                        "image": true
+                    }
+                }
+                </script>
+            </amp-analytics>
+            {{/d}}
+        </template>
+    </amp-list>
+
+    <!-- <p [text]="siqWatch[0].d.sid">Hahha</p> -->
+</div>
+
+<!-- <amp-state id="siqEmbed" credentials="include" src="https://salesiq.zoho.com/getembeddetails.ls?widgetcode=15ca7a5a41fbec59508d9e51af5543251d0984cb584968e01c80b93b2cdcf03a5d5fe629768af6d9a03793700d9418c2&fetchavuid=false&fetchapilang=false&lang_browser=BROWSER_LANGUAGE&currdomain=https%3A%2F%2FSOURCE_HOST&pagetitle=TITLE">
+    <script type="application/json">
+[
+    {
+        "objString": {
+            "widgettype": 1,
+            "widgetobj": {
+                "lsid": "289541000000002043",
+                "screenname": "seatrekbali",
+                "embedname": "seatrekbali"
+            },
+            "usedownloadserver": true,
+            "version": "V21",
+            "last_modified": "1532932042919"
+        },
+        "module": "getembeddetails",
+        "objType": "object"
+    }
+]
+    </script>
+</amp-state> -->
+
+<!-- <amp-state id="siqWatch" credentials="omit"
+    data-amp-replace="SOURCE_URL TITLE TIMEZONE AVAILABLE_SCREEN_WIDTH AVAILABLE_SCREEN_HEIGHT BROWSER_LANGUAGE TIMESTAMP"
+    [src]="'https://vts.zohopublic.com/watch?x-e=' + siqEmbed[0].objString.widgetobj.embedname + '&x-s=' + siqEmbed[0].objString.widgetobj.screenname + '&lsid=' + siqEmbed[0].objString.widgetobj.lsid + '&cpage=SOURCE_URL&ptitle=TITLE&gmttime=TIMEZONE&resolution=AVAILABLE_SCREEN_WIDTHxAVAILABLE_SCREEN_HEIGHT&lang_embed=BROWSER_LANGUAGE&con_id=TIMESTAMP&nocache=TIMESTAMP&connection_count=1'">
+</amp-state> -->
 
 <!--
 <amp-sidebar id="sidebar" class="cid-rT0NAMo84y" layout="nodisplay" side="right">
@@ -2284,12 +2380,25 @@ body.amp-geo-group-eea .message-non-eea,
 
         <div class="mbr-row mbr-jc-c">
             <div class="mbr-col-lg-7 mbr-col-md-10 mbr-col-sm-12" data-form-type="formoid">
-                <form class="mbr-form" method="post" target="_top" action-xhr="https://formoid.net/api/amp-form/push" data-form-title="Registration Form"><input type="hidden" name="email" data-form-email="true" value="nXkpVOM9yFOsRWGHQR4hPrGvbo0pWq7KIoA2bJLlU3VBzFE049jpjS73KEZuytnWWwJt2jNOLRCfPuPIKVW0j4/Dyb7S1xd8jrm2V1heZENR/7SyVr2BorkMpbOgx5U+">
+                <form class="mbr-form"
+                    method="post"
+                    target="_top"
+                    action-xhr="https://formoid.net/api/amp-form/push"
+                    data-form-title="Registration Form"
+                    on="valid: AMP.setState({});invalid: AMP.setState({})">
+                    <input type="hidden" name="email" data-form-email="true" value="nXkpVOM9yFOsRWGHQR4hPrGvbo0pWq7KIoA2bJLlU3VBzFE049jpjS73KEZuytnWWwJt2jNOLRCfPuPIKVW0j4/Dyb7S1xd8jrm2V1heZENR/7SyVr2BorkMpbOgx5U+">
                     <div class="mbr-form-row">
                         <div class="field mbr-col-sm-12 mbr-col-md-12 mbr-col-lg-12" data-for="form[data][2][1]">
                             <input type="hidden" name="form[data][2][0]" value="Trips" id="form[data][2][0]-contacts2-6" data-form-field="">
                             <div class="mbr-col-lg-7 mbr-col-md-10 mbr-col-sm-12 mbr-m-auto">
-                                <amp-selector multiple layout="container" class="radio-selector" name="form[data][2][1]"> 
+                                <amp-selector multiple
+                                    layout="container"
+                                    class="radio-selector"
+                                    name="form[data][2][1]"
+                                    on="select: AMP.setState({
+                                        selectedOption: event.targetOption,
+                                        allSelectedOptions: event.selectedOptions
+                                      })"> 
                                     <div option="Komodo">Bali to Komodo Island</div>
                                     <div option="Raja-ampat">Raja Ampat</div>
                                     <div option="Maluku">Maluku & The Spice Islands</div>
@@ -2301,13 +2410,13 @@ body.amp-geo-group-eea .message-non-eea,
                     <div class="mbr-form-row">
                         <div class="field mbr-col-sm-12 mbr-col" data-for="form[data][0][1]">
                             <input type="hidden" name="form[data][0][0]" value="Name" id="form[data][1][0]-contacts2-6" data-form-field="">
-                            <input class="field-input display-4" type="text" name="form[data][0][1]" data-form-field="Name" placeholder="Name" required="" id="form[data][1][1]-contacts2-6">
+                            <input class="field-input display-4" type="text" name="form[data][0][1]" data-form-field="Name" placeholder="Name" required="" id="form[data][1][1]-contacts2-6" on="input-debounced: AMP.setState({ name: event.value })">
                         </div>
                     </div>
                    <div class="mbr-form-row">
                         <div class="field mbr-col-sm-12 mbr-col" data-for="form[data][1][1]">
                             <input type="hidden" name="form[data][1][0]" value="Email" id="form[data][0][0]-contacts2-6" data-form-field="">
-                            <input class="field-input display-4" type="email" name="form[data][1][1]" data-form-field="Email" placeholder="Email" required="" id="form[data][0][1]-contacts2-6">
+                            <input class="field-input display-4" type="email" name="form[data][1][1]" data-form-field="Email" placeholder="Email" required="" id="form[data][0][1]-contacts2-6" on="input-debounced: AMP.setState({ email: event.value })">
                         </div>
                     </div>
                     <div class="mbr-form-row">
@@ -2365,7 +2474,7 @@ body.amp-geo-group-eea .message-non-eea,
         <amp-img amp-fx="fade-in fly-in-left"
             data-margin-start="40%"
             data-fly-in-distance="40%"
-            data-duration="1500ms"
+            data-duration="500ms"
             width="1280"
             height="532"
             layout="responsive"
@@ -2376,7 +2485,7 @@ body.amp-geo-group-eea .message-non-eea,
         <amp-img amp-fx="fade-in fly-in-right"
             data-margin-start="40%"
             data-fly-in-distance="40%"
-            data-duration="1500ms"
+            data-duration="500ms"
             width="1280"
             height="306"
             layout="responsive"
@@ -2387,7 +2496,7 @@ body.amp-geo-group-eea .message-non-eea,
         <amp-img amp-fx="fade-in fly-in-left"
             data-margin-start="40%"
             data-fly-in-distance="40%"
-            data-duration="1500ms"
+            data-duration="500ms"
             width="1280"
             height="319"
             layout="responsive"
@@ -2398,7 +2507,7 @@ body.amp-geo-group-eea .message-non-eea,
         <amp-img amp-fx="fade-in fly-in-right"
             data-margin-start="40%"
             data-fly-in-distance="40%"
-            data-duration="1500ms"
+            data-duration="500ms"
             width="1280"
             height="484"
             layout="responsive"
@@ -2409,7 +2518,7 @@ body.amp-geo-group-eea .message-non-eea,
         <amp-img amp-fx="fade-in fly-in-left"
             data-margin-start="40%"
             data-fly-in-distance="40%"
-            data-duration="1500ms"
+            data-duration="500ms"
             width="1280"
             height="470"
             layout="responsive"
@@ -2420,7 +2529,7 @@ body.amp-geo-group-eea .message-non-eea,
         <amp-img amp-fx="fade-in fly-in-right"
             data-margin-start="40%"
             data-fly-in-distance="40%"
-            data-duration="1500ms"
+            data-duration="500ms"
             width="1280"
             height="277"
             layout="responsive"
@@ -2431,7 +2540,7 @@ body.amp-geo-group-eea .message-non-eea,
         <amp-img amp-fx="fade-in fly-in-left"
             data-margin-start="40%"
             data-fly-in-distance="40%"
-            data-duration="1500ms"
+            data-duration="500ms"
             width="1280"
             height="372"
             layout="responsive"
@@ -2442,7 +2551,7 @@ body.amp-geo-group-eea .message-non-eea,
         <amp-img amp-fx="fade-in fly-in-right"
             data-margin-start="40%"
             data-fly-in-distance="40%"
-            data-duration="1500ms"
+            data-duration="500ms"
             width="1280"
             height="597"
             layout="responsive"
@@ -2453,7 +2562,7 @@ body.amp-geo-group-eea .message-non-eea,
         <amp-img amp-fx="fade-in fly-in-left"
             data-margin-start="40%"
             data-fly-in-distance="40%"
-            data-duration="1500ms"
+            data-duration="500ms"
             width="1280"
             height="381"
             layout="responsive"
@@ -2464,7 +2573,7 @@ body.amp-geo-group-eea .message-non-eea,
         <amp-img amp-fx="fade-in fly-in-right"
             data-margin-start="40%"
             data-fly-in-distance="40%"
-            data-duration="1500ms"
+            data-duration="500ms"
             width="1280"
             height="307"
             layout="responsive"
