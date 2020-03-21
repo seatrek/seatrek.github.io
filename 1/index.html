@@ -2231,7 +2231,7 @@ body.amp-geo-group-eea .message-non-eea,
     <amp-list layout="fixed-height"
         height="1"
         credentials="include"
-        src="https://salesiq.zoho.com/getembeddetails.ls?widgetcode=a95bd38a15369fc3deac3225eba2b3db670708292f9f9d06a41da2e599298d6dada1889884ae71de53d16d9bfeb902d6&fetchavuid=false&fetchapilang=false&lang_browser=BROWSER_LANGUAGE&currdomain=https%3A%2F%2FSOURCE_HOST&pagetitle=TITLE"
+        src="https://salesiq.zoho.com/getembeddetails.ls?widgetcode=81be1215e442ab11a90c004d19ccd47451412bc96d5423d275cd2ae167f9aba21a2010ab7b6727677d37b27582c0e9c4&fetchavuid=false&fetchapilang=false&lang_browser=BROWSER_LANGUAGE&currdomain=https%3A%2F%2FSOURCE_HOST&pagetitle=TITLE"
         template="siq-template-1"
         single-item
         items="."
@@ -2316,7 +2316,7 @@ body.amp-geo-group-eea .message-non-eea,
                         "destInterests": "${ampState(destSelectedOptionsCsv)}"
                     },
                     "extraUrlParams": {
-                        "data": "{\"opr\":\"updateinfo\",\"name\":\"${ampState(inputName)}\",\"email\":\"${ampState(inputEmail)}\",\"cinfo\":{\"DestInterests\":\"${destInterests}\"},\"event_time\":\"${timestamp}\"}",
+                        "data": "{\"opr\":\"updateinfo\",\"name\":\"${ampState(inputName)}\",\"email\":\"${ampState(inputEmail)}\",\"cinfo\":{\"Description\":\"${destInterests}\"},\"event_time\":\"${timestamp}\"}",
                         "seqno": "${requestCount}"
                     }
                 },
@@ -2337,7 +2337,7 @@ body.amp-geo-group-eea .message-non-eea,
                         "destInterests": "${ampState(destSelectedOptionsCsv)}"
                     },
                     "extraUrlParams": {
-                        "data": "{\"opr\":\"updateinfo\",\"cinfo\":{\"DestInterests\":\"${destInterests}\"},\"event_time\":\"${timestamp}\"}",
+                        "data": "{\"opr\":\"updateinfo\",\"cinfo\":{\"Description\":\"${destInterests}\"},\"event_time\":\"${timestamp}\"}",
                         "seqno": "${requestCount}"
                     }
                 },
@@ -2349,7 +2349,7 @@ body.amp-geo-group-eea .message-non-eea,
                         "eventName": "Lead"
                     },
                     "extraUrlParams": {
-                        "data": "{\"opr\":\"customaction\",\"action\":{\"field\":\"Lead\",\"value\":{\"ad_name\":\"${queryParam(ad_name)}\",\"adset_name\":\"${queryParam(adset_name)}\",\"campaign_name\":\"${queryParam(campaign_name)}\",\"placement\":\"${queryParam(placement)}\",\"site_source_name\":\"${queryParam(site_source_name)}\"}},\"navdata\":{\"cpage\":\"${sourceUrl}\",\"ptitle\":\"${title}\",\"lsid\":\"${ampState(_lsid)}\"},\"event_time\":\"${timestamp}\"}",
+                        "data": "{\"opr\":\"customaction\",\"action\":{\"field\":\"Contacted\",\"value\":{\"ad_name\":\"${queryParam(ad_name)}\",\"adset_name\":\"${queryParam(adset_name)}\",\"campaign_name\":\"${queryParam(campaign_name)}\",\"placement\":\"${queryParam(placement)}\",\"site_source_name\":\"${queryParam(site_source_name)}\"}},\"navdata\":{\"cpage\":\"${sourceUrl}\",\"ptitle\":\"${title}\",\"lsid\":\"${ampState(_lsid)}\"},\"event_time\":\"${timestamp}\"}",
                         "seqno": "${requestCount}"
                     }
                 }
@@ -2565,7 +2565,7 @@ body.amp-geo-group-eea .message-non-eea,
                                     on="select: AMP.setState({
                                         destLastSelectedOption: event.targetOption,
                                         destSelectedOptions: event.selectedOptions,
-                                        destSelectedOptionsCsv: event.selectedOptions.join(',')
+                                        destSelectedOptionsCsv: event.selectedOptions.join(', ')
                                       })"> 
                                     <div option="Komodo">Bali to Komodo Island</div>
                                     <div option="Raja-ampat">Raja Ampat</div>
