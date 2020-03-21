@@ -2241,128 +2241,138 @@ body.amp-geo-group-eea .message-non-eea,
 
 <template type="amp-mustache" id="siq-template-1">
     {{#objString}}
-    <amp-state id="_lsid">
-        <script type="application/json">"{{widgetobj.lsid}}"</script>
-    </amp-state>
-    <amp-script layout="fixed-height" height="1" script="siq-script">
-        <input id="embedname" type="hidden" value="{{widgetobj.embedname}}"/>
-        <input id="screenname" type="hidden" value="{{widgetobj.screenname}}"/>
+    {{#widgetobj}}
+        {{#lsid}}
+            <amp-state id="_lsid">
+                <script type="application/json">"{{.}}"</script>
+            </amp-state>
+        {{/lsid}}
+        <amp-script layout="fixed-height" height="1" script="siq-script">
+            <input id="embedname" type="hidden" value="{{embedname}}"/>
+            <input id="screenname" type="hidden" value="{{screenname}}"/>
 
-        <amp-list layout="fixed-height"
-            height="1"
-            credentials="omit"
-            src="https://vts.zohopublic.com/watch?x-e={{widgetobj.embedname}}&x-s={{widgetobj.screenname}}&lsid={{widgetobj.lsid}}&cpage=SOURCE_URL&ptitle=TITLE&gmttime=TIMEZONE&resolution=SCREEN_WIDTHxSCREEN_HEIGHT&lang_embed=BROWSER_LANGUAGE&con_id=TIMESTAMP&nocache=TIMESTAMP&connection_count=1"
-            [src]="'https://vts.zohopublic.com/watch?x-e={{widgetobj.embedname}}&x-s={{widgetobj.screenname}}&lsid={{widgetobj.lsid}}&cpage=SOURCE_URL&ptitle=TITLE&gmttime=TIMEZONE&resolution=SCREEN_WIDTHxSCREEN_HEIGHT&lang_embed=BROWSER_LANGUAGE&con_id=TIMESTAMP&nocache=TIMESTAMP&connection_count=1&_zldp=' + encodeURIComponent(_zldp) + '&_zldt=' + encodeURIComponent(_zldt)"
-            data-amp-replace="SOURCE_URL TITLE TIMEZONE SCREEN_WIDTH SCREEN_HEIGHT BROWSER_LANGUAGE TIMESTAMP"
-            template="siq-template-2"
-            single-item
-            items="."
-            binding="no">
-        </amp-list>
-    </amp-script>
+            <amp-list layout="fixed-height"
+                height="1"
+                credentials="omit"
+                src="https://vts.zohopublic.com/watch?x-e={{embedname}}&x-s={{screenname}}&lsid={{lsid}}&cpage=SOURCE_URL&ptitle=TITLE&gmttime=TIMEZONE&resolution=SCREEN_WIDTHxSCREEN_HEIGHT&lang_embed=BROWSER_LANGUAGE&con_id=TIMESTAMP&nocache=TIMESTAMP&connection_count=1"
+                [src]="'https://vts.zohopublic.com/watch?x-e={{embedname}}&x-s={{screenname}}&lsid={{lsid}}&cpage=SOURCE_URL&ptitle=TITLE&gmttime=TIMEZONE&resolution=SCREEN_WIDTHxSCREEN_HEIGHT&lang_embed=BROWSER_LANGUAGE&con_id=TIMESTAMP&nocache=TIMESTAMP&connection_count=1&_zldp=' + encodeURIComponent(_zldp) + '&_zldt=' + encodeURIComponent(_zldt)"
+                data-amp-replace="SOURCE_URL TITLE TIMEZONE SCREEN_WIDTH SCREEN_HEIGHT BROWSER_LANGUAGE TIMESTAMP"
+                template="siq-template-2"
+                single-item
+                items="."
+                binding="no">
+            </amp-list>
+        </amp-script>
+    {{/widgetobj}}
     {{/objString}}
 </template>
 
 <template type="amp-mustache" id="siq-template-2">
     {{#d}}
-    <amp-state id="_zldt">
-        <script type="application/json">"{{_zldt}}"</script>
-    </amp-state>
-    <amp-state id="_zldp">
-        <script type="application/json">"{{_zldp}}"</script>
-    </amp-state>
-    <amp-state id="_siqid">
-        <script type="application/json">"{{siq_id}}"</script>
-    </amp-state>
-    <amp-analytics>
-        <script type="application/json">
-        {
-            "requests": {
-                "event": "https://vts.zohopublic.com/bind"
-            },
-            "extraUrlParams": {
-                "sid": "{{sid}}",
-                "nocache": "${timestamp}"
-            },
-            "vars": {
-                "siq_id": "{{siq_id}}",
-                "uvid": "{{_zldt}}"
-            },
-            "triggers": {
-                "trackPageview": {
-                    "on": "visible",
-                    "request": "event",
-                    "vars": {
-                        "eventName": "Pageview"
-                    },
-                    "extraUrlParams": {
-                        "data": "{\"opr\":\"ack\",\"uvid\":\"${uvid}\",\"siq_id\":\"${siq_id}\",\"event_time\":\"${timestamp}\"}",
-                        "seqno": "-1"
-                    }
+        {{#_zldt}}
+            <amp-state id="_zldt">
+                <script type="application/json">"{{.}}"</script>
+            </amp-state>
+        {{/_zldt}}
+        {{#_zldp}}
+            <amp-state id="_zldp">
+                <script type="application/json">"{{.}}"</script>
+            </amp-state>
+        {{/_zldp}}
+        {{#siq_id}}
+            <amp-state id="_siqid">
+                <script type="application/json">"{{.}}"</script>
+            </amp-state>
+        {{/siq_id}}
+        <amp-analytics>
+            <script type="application/json">
+            {
+                "requests": {
+                    "event": "https://vts.zohopublic.com/bind"
                 },
-                "scrollPings": {
-                    "on": "scroll",
-                    "scrollSpec": {
-                      "verticalBoundaries": [25, 50, 90],
-                      "horizontalBoundaries": [90]
-                    },
-                    "request": "event"
+                "extraUrlParams": {
+                    "sid": "{{sid}}",
+                    "nocache": "${timestamp}"
                 },
-                "formSubmit": {
-                    "on": "amp-form-submit",
-                    "request": "event",
-                    "vars": {
-                        "eventName": "CompleteRegistration",
-                        "destInterests": "${ampState(destSelectedOptionsCsv)}"
-                    },
-                    "extraUrlParams": {
-                        "data": "{\"opr\":\"updateinfo\",\"name\":\"${ampState(inputName)}\",\"email\":\"${ampState(inputEmail)}\",\"cinfo\":{\"Description\":\"${destInterests}\"},\"event_time\":\"${timestamp}\"}",
-                        "seqno": "${requestCount}"
-                    }
+                "vars": {
+                    "siq_id": "{{siq_id}}",
+                    "uvid": "{{_zldt}}"
                 },
-                "selectorClick": {
-                    "on": "timer",
-                    "timerSpec": {
-                        "immediate": false,
-                        "interval": 3,
-                        "maxTimerLength": 9,
-                        "startSpec": {
-                            "on": "click",
-                            "selector": "#destinations-selector"
+                "triggers": {
+                    "trackPageview": {
+                        "on": "visible",
+                        "request": "event",
+                        "vars": {
+                            "eventName": "Pageview"
+                        },
+                        "extraUrlParams": {
+                            "data": "{\"opr\":\"ack\",\"uvid\":\"${uvid}\",\"siq_id\":\"${siq_id}\",\"event_time\":\"${timestamp}\"}",
+                            "seqno": "-1"
                         }
                     },
-                    "request": "event",
-                    "vars": {
-                        "eventName": "Lead",
-                        "destInterests": "${ampState(destSelectedOptionsCsv)}"
+                    "scrollPings": {
+                        "on": "scroll",
+                        "scrollSpec": {
+                        "verticalBoundaries": [25, 50, 90],
+                        "horizontalBoundaries": [90]
+                        },
+                        "request": "event"
                     },
-                    "extraUrlParams": {
-                        "data": "{\"opr\":\"updateinfo\",\"cinfo\":{\"Description\":\"${destInterests}\"},\"event_time\":\"${timestamp}\"}",
-                        "seqno": "${requestCount}"
+                    "formSubmit": {
+                        "on": "amp-form-submit",
+                        "request": "event",
+                        "vars": {
+                            "eventName": "CompleteRegistration",
+                            "destInterests": "${ampState(destSelectedOptionsCsv)}"
+                        },
+                        "extraUrlParams": {
+                            "data": "{\"opr\":\"updateinfo\",\"name\":\"${ampState(inputName)}\",\"email\":\"${ampState(inputEmail)}\",\"cinfo\":{\"Description\":\"${destInterests}\"},\"event_time\":\"${timestamp}\"}",
+                            "seqno": "${requestCount}"
+                        }
+                    },
+                    "selectorClick": {
+                        "on": "timer",
+                        "timerSpec": {
+                            "immediate": false,
+                            "interval": 3,
+                            "maxTimerLength": 9,
+                            "startSpec": {
+                                "on": "click",
+                                "selector": "#destinations-selector"
+                            }
+                        },
+                        "request": "event",
+                        "vars": {
+                            "eventName": "Lead",
+                            "destInterests": "${ampState(destSelectedOptionsCsv)}"
+                        },
+                        "extraUrlParams": {
+                            "data": "{\"opr\":\"updateinfo\",\"cinfo\":{\"Description\":\"${destInterests}\"},\"event_time\":\"${timestamp}\"}",
+                            "seqno": "${requestCount}"
+                        }
+                    },
+                    "buttonClick": {
+                        "selector": ".btn-primary",
+                        "on": "click",
+                        "request": "event",
+                        "vars": {
+                            "eventName": "Lead"
+                        },
+                        "extraUrlParams": {
+                            "data": "{\"opr\":\"customaction\",\"action\":{\"field\":\"Contacted\",\"value\":{\"ad_name\":\"${queryParam(ad_name)}\",\"adset_name\":\"${queryParam(adset_name)}\",\"campaign_name\":\"${queryParam(campaign_name)}\",\"placement\":\"${queryParam(placement)}\",\"site_source_name\":\"${queryParam(site_source_name)}\"}},\"navdata\":{\"cpage\":\"${sourceUrl}\",\"ptitle\":\"${title}\",\"lsid\":\"${ampState(_lsid)}\"},\"event_time\":\"${timestamp}\"}",
+                            "seqno": "${requestCount}"
+                        }
                     }
                 },
-                "buttonClick": {
-                    "selector": ".btn-primary",
-                    "on": "click",
-                    "request": "event",
-                    "vars": {
-                        "eventName": "Lead"
-                    },
-                    "extraUrlParams": {
-                        "data": "{\"opr\":\"customaction\",\"action\":{\"field\":\"Contacted\",\"value\":{\"ad_name\":\"${queryParam(ad_name)}\",\"adset_name\":\"${queryParam(adset_name)}\",\"campaign_name\":\"${queryParam(campaign_name)}\",\"placement\":\"${queryParam(placement)}\",\"site_source_name\":\"${queryParam(site_source_name)}\"}},\"navdata\":{\"cpage\":\"${sourceUrl}\",\"ptitle\":\"${title}\",\"lsid\":\"${ampState(_lsid)}\"},\"event_time\":\"${timestamp}\"}",
-                        "seqno": "${requestCount}"
-                    }
+                "transport": {
+                    "beacon": true,
+                    "xhrpost": false,
+                    "useBody": false,
+                    "image": true
                 }
-            },
-            "transport": {
-                "beacon": true,
-                "xhrpost": false,
-                "useBody": false,
-                "image": true
             }
-        }
-        </script>
-    </amp-analytics>
+            </script>
+        </amp-analytics>
     {{/d}}
 </template>
 
