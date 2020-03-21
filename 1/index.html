@@ -7,9 +7,9 @@
   <link rel="shortcut icon" href="assets/images/seatrek-logo-240x120.png" type="image/x-icon">
   <link rel="preload" href="assets/images/katharina-750x500.jpg" as="image">
   <meta name="description" content="">
-  <meta name="amp-script-src" content="">
+  <meta name="amp-script-src" content="sha384-FGQjTBwrAA_NAzFuyUgqddMrYRfl359EDkT3BaCAL60XIxunZXw2wUzzrGW9siUV">
   
-  <title>Sailing Adventures - SeaTrek</title>
+  <title>Sailing Adventures Indonesia | Seatrek</title>
   
 <link rel="canonical" href="./">
  <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style>
@@ -2125,6 +2125,7 @@ body.amp-geo-group-eea .message-non-eea,
   <script async custom-element="amp-selector" src="https://cdn.ampproject.org/v0/amp-selector-0.1.js"></script>
   <script async custom-element="amp-geo" src="https://cdn.ampproject.org/v0/amp-geo-0.1.js"></script>
   <script async custom-element="amp-fx-collection" src="https://cdn.ampproject.org/v0/amp-fx-collection-0.1.js"></script>
+  <script async custom-element="amp-script" src="https://cdn.ampproject.org/v0/amp-script-0.1.js"></script>
   <!-- <script async custom-element="amp-bodymovin-animation" src="https://cdn.ampproject.org/v0/amp-bodymovin-animation-0.1.js"></script> -->
 
 </head>
@@ -2133,72 +2134,237 @@ body.amp-geo-group-eea .message-non-eea,
 <amp-geo layout="nodisplay">
 </amp-geo>
 
+<script type="text/plain" target="amp-script" id="siq-script">
+    /*
+        const socket = new WebSocket('wss://websocket.example');
+        socket.onmessage = event => {
+            AMP.setState({socketData: event.data});
+        };
+    */
+
+    function inputValue(id) {
+        var input = document.getElementById(id);
+        return input ? input.value : null;
+    }
+
+    function b() {
+        try {
+            return !!self.localStorage && (localStorage.setItem("quota_test", "1"), localStorage.removeItem("quota_test"), !0)
+        } catch (e) {}
+        return !1
+    }
+
+    function throwErr(err) {
+        setTimeout(function() { throw err; });
+    }
+
+    var screenname = inputValue('screenname') || "seatrekbali";
+    var embedname = inputValue('embedname') || "seatrekbali";
+
+    var Q = function(e) {
+        return screenname + "-" + e
+    }
+
+    var E = function(e) {
+        return screenname + "-" + embedname + "-" + e
+    }
+
+    var $ZSIQUTS = {
+        storeInLocalStorage: function(e, t, n) {
+            if (!b()) return !1;
+            e = Q(e);
+            var i = JSON.parse(localStorage.getItem("utsdb") || "{}"),
+                o = {};
+            return o[e] = t, n && (o.ttl = n, o.time = (new Date).getTime()), i[e] = o, localStorage.setItem("utsdb", JSON.stringify(i)), !0
+        },
+        getFromLocalStorage: function(e) {
+            if (!b()) return !1;
+            var t = e,
+                n = JSON.parse(localStorage.getItem("utsdb") || "{}"),
+                i = n[e = Q(t)];
+            if (i) delete n[E(t)], localStorage.setItem("utsdb", JSON.stringify(n));
+            else {
+                if (!(i = n[e = E(t)])) return null;
+                i[Q(t)] = i[e], delete i[E(t)], n[Q(t)] = i, delete n[E(t)], localStorage.setItem("utsdb", JSON.stringify(n))
+            }
+            return i ? i.ttl && i.ttl + i.time < (new Date).getTime() ? (delete n[Q(t)], delete n[E(t)], localStorage.setItem("utsdb", JSON.stringify(n)), null) : i[e] : null
+        }
+    };
+
+    var uts = {
+        _zldt: $ZSIQUTS.getFromLocalStorage("_zldt"),
+        _zldp: $ZSIQUTS.getFromLocalStorage("_zldp"),
+        _siqid: $ZSIQUTS.getFromLocalStorage("_siqid")
+    }
+
+    var setStateUts = {
+        _zldt: uts._zldt && AMP.setState({ _zldt: uts._zldt }),
+        _zldp: uts._zldp && AMP.setState({ _zldp: uts._zldp }),
+        _siqid: uts._siqid && AMP.setState({ _siqid: uts._siqid })
+    }
+
+    setInterval(function() {
+        AMP.getState("_zldt").then(function(_zldt) {
+            // console.debug("_zldt", _zldt);
+            if (_zldt && _zldt !== $ZSIQUTS.getFromLocalStorage("_zldt")) {
+                $ZSIQUTS.storeInLocalStorage("_zldt", _zldt, 86400000);
+            }
+        }, throwErr);
+        AMP.getState("_zldp").then(function(_zldp) {
+            // console.debug("_zldp", _zldp);
+            if (_zldp && _zldp !== $ZSIQUTS.getFromLocalStorage("_zldp")) {
+                $ZSIQUTS.storeInLocalStorage("_zldp", _zldp, 63072000000);
+            }
+        }, throwErr);
+        AMP.getState("_siqid").then(function(_siqid) {
+            // console.debug("_siqid", _siqid);
+            if (_siqid && _siqid !== $ZSIQUTS.getFromLocalStorage("_siqid")) {
+                $ZSIQUTS.storeInLocalStorage("_siqid", _siqid, 63072000000);
+            }
+        }, throwErr);
+    }, 1000);
+
+    // console.info(uts);
+</script>
+
 <div class="sticky-header">
     <amp-list layout="fixed-height"
         height="1"
         credentials="include"
         src="https://salesiq.zoho.com/getembeddetails.ls?widgetcode=a95bd38a15369fc3deac3225eba2b3db670708292f9f9d06a41da2e599298d6dada1889884ae71de53d16d9bfeb902d6&fetchavuid=false&fetchapilang=false&lang_browser=BROWSER_LANGUAGE&currdomain=https%3A%2F%2FSOURCE_HOST&pagetitle=TITLE"
+        template="siq-template-1"
         single-item
         items="."
-        binding="no">
-        <template type="amp-mustache">
-            {{#objString}}
-            <amp-state id="siqWatch"
-                credentials="omit"
-                src="https://vts.zohopublic.com/watch?x-e={{widgetobj.embedname}}&x-s={{widgetobj.screenname}}&lsid={{widgetobj.lsid}}&cpage=SOURCE_URL&ptitle=TITLE&gmttime=TIMEZONE&resolution=AVAILABLE_SCREEN_WIDTHxAVAILABLE_SCREEN_HEIGHT&lang_embed=BROWSER_LANGUAGE&con_id=TIMESTAMP&nocache=TIMESTAMP&connection_count=1">
-            </amp-state>
-            {{/objString}}
-        </template>
+        binding="refresh">
     </amp-list>
+</div>
 
-    <amp-list layout="fixed-height"
-        height="1"
-        credentials="include"
-        [src]="siqWatch"
-        single-item
-        items="."
-        binding="no">
-        <template type="amp-mustache">
-            {{#d}}
-            <amp-analytics>
-                <script type="application/json">
-                {
-                    "requests": {
-                        "event": "https://vts.zohopublic.com/bind?sid=${sid}&nocache=${timestamp}"
-                    },
+<template type="amp-mustache" id="siq-template-1">
+    {{#objString}}
+    <amp-state id="_lsid">
+        <script type="application/json">"{{widgetobj.lsid}}"</script>
+    </amp-state>
+    <amp-script layout="fixed-height" height="1" script="siq-script">
+        <input id="embedname" type="hidden" value="{{widgetobj.embedname}}"/>
+        <input id="screenname" type="hidden" value="{{widgetobj.screenname}}"/>
+
+        <amp-list layout="fixed-height"
+            height="1"
+            credentials="omit"
+            src="https://vts.zohopublic.com/watch?x-e={{widgetobj.embedname}}&x-s={{widgetobj.screenname}}&lsid={{widgetobj.lsid}}&cpage=SOURCE_URL&ptitle=TITLE&gmttime=TIMEZONE&resolution=SCREEN_WIDTHxSCREEN_HEIGHT&lang_embed=BROWSER_LANGUAGE&con_id=TIMESTAMP&nocache=TIMESTAMP&connection_count=1"
+            [src]="'https://vts.zohopublic.com/watch?x-e={{widgetobj.embedname}}&x-s={{widgetobj.screenname}}&lsid={{widgetobj.lsid}}&cpage=SOURCE_URL&ptitle=TITLE&gmttime=TIMEZONE&resolution=SCREEN_WIDTHxSCREEN_HEIGHT&lang_embed=BROWSER_LANGUAGE&con_id=TIMESTAMP&nocache=TIMESTAMP&connection_count=1&_zldp=' + encodeURIComponent(_zldp) + '&_zldt=' + encodeURIComponent(_zldt)"
+            data-amp-replace="SOURCE_URL TITLE TIMEZONE SCREEN_WIDTH SCREEN_HEIGHT BROWSER_LANGUAGE TIMESTAMP"
+            template="siq-template-2"
+            single-item
+            items="."
+            binding="no">
+        </amp-list>
+    </amp-script>
+    {{/objString}}
+</template>
+
+<template type="amp-mustache" id="siq-template-2">
+    {{#d}}
+    <amp-state id="_zldt">
+        <script type="application/json">"{{_zldt}}"</script>
+    </amp-state>
+    <amp-state id="_zldp">
+        <script type="application/json">"{{_zldp}}"</script>
+    </amp-state>
+    <amp-state id="_siqid">
+        <script type="application/json">"{{siq_id}}"</script>
+    </amp-state>
+    <amp-analytics>
+        <script type="application/json">
+        {
+            "requests": {
+                "event": "https://vts.zohopublic.com/bind"
+            },
+            "extraUrlParams": {
+                "sid": "{{sid}}",
+                "nocache": "${timestamp}"
+            },
+            "vars": {
+                "siq_id": "{{siq_id}}",
+                "uvid": "{{_zldt}}"
+            },
+            "triggers": {
+                "trackPageview": {
+                    "on": "visible",
+                    "request": "event",
                     "vars": {
-                        "sid": "{{sid}}",
-                        "siq_id": "{{siq_id}}",
-                        "uvid": "{{_zldt}}"
+                        "eventName": "Pageview"
                     },
-                    "triggers": {
-                        "trackPageview": {
-                            "on": "visible",
-                            "request": "event",
-                            "vars": {
-                                "eventId": "pageview"
-                            },
-                            "extraUrlParams": {
-                                "data": "{\"opr\":\"ack\",\"uvid\":\"${uvid}\",\"siq_id\":\"${siq_id}\",\"event_time\":\"${timestamp}\"}",
-                                "seqno": "-1"
-                            }
+                    "extraUrlParams": {
+                        "data": "{\"opr\":\"ack\",\"uvid\":\"${uvid}\",\"siq_id\":\"${siq_id}\",\"event_time\":\"${timestamp}\"}",
+                        "seqno": "-1"
+                    }
+                },
+                "scrollPings": {
+                    "on": "scroll",
+                    "scrollSpec": {
+                      "verticalBoundaries": [25, 50, 90],
+                      "horizontalBoundaries": [90]
+                    },
+                    "request": "event"
+                },
+                "formSubmit": {
+                    "on": "amp-form-submit",
+                    "request": "event",
+                    "vars": {
+                        "eventName": "CompleteRegistration",
+                        "destInterests": "${ampState(destSelectedOptionsCsv)}"
+                    },
+                    "extraUrlParams": {
+                        "data": "{\"opr\":\"updateinfo\",\"name\":\"${ampState(inputName)}\",\"email\":\"${ampState(inputEmail)}\",\"cinfo\":{\"DestInterests\":\"${destInterests}\"},\"event_time\":\"${timestamp}\"}",
+                        "seqno": "${requestCount}"
+                    }
+                },
+                "selectorClick": {
+                    "on": "timer",
+                    "timerSpec": {
+                        "immediate": false,
+                        "interval": 3,
+                        "maxTimerLength": 9,
+                        "startSpec": {
+                            "on": "click",
+                            "selector": "#destinations-selector"
                         }
                     },
-                    "transport": {
-                        "beacon": true,
-                        "xhrpost": false,
-                        "useBody": false,
-                        "image": true
+                    "request": "event",
+                    "vars": {
+                        "eventName": "Lead",
+                        "destInterests": "${ampState(destSelectedOptionsCsv)}"
+                    },
+                    "extraUrlParams": {
+                        "data": "{\"opr\":\"updateinfo\",\"cinfo\":{\"DestInterests\":\"${destInterests}\"},\"event_time\":\"${timestamp}\"}",
+                        "seqno": "${requestCount}"
+                    }
+                },
+                "buttonClick": {
+                    "selector": ".btn-primary",
+                    "on": "click",
+                    "request": "event",
+                    "vars": {
+                        "eventName": "Lead"
+                    },
+                    "extraUrlParams": {
+                        "data": "{\"opr\":\"customaction\",\"action\":{\"field\":\"Lead\",\"value\":{\"ad_name\":\"${queryParam(ad_name)}\",\"adset_name\":\"${queryParam(adset_name)}\",\"campaign_name\":\"${queryParam(campaign_name)}\",\"placement\":\"${queryParam(placement)}\",\"site_source_name\":\"${queryParam(site_source_name)}\"}},\"navdata\":{\"cpage\":\"${sourceUrl}\",\"ptitle\":\"${title}\",\"lsid\":\"${ampState(_lsid)}\"},\"event_time\":\"${timestamp}\"}",
+                        "seqno": "${requestCount}"
                     }
                 }
-                </script>
-            </amp-analytics>
-            {{/d}}
-        </template>
-    </amp-list>
-
-    <!-- <p [text]="siqWatch[0].d.sid">Hahha</p> -->
-</div>
+            },
+            "transport": {
+                "beacon": true,
+                "xhrpost": false,
+                "useBody": false,
+                "image": true
+            }
+        }
+        </script>
+    </amp-analytics>
+    {{/d}}
+</template>
 
 <!-- <amp-state id="siqEmbed" credentials="include" src="https://salesiq.zoho.com/getembeddetails.ls?widgetcode=15ca7a5a41fbec59508d9e51af5543251d0984cb584968e01c80b93b2cdcf03a5d5fe629768af6d9a03793700d9418c2&fetchavuid=false&fetchapilang=false&lang_browser=BROWSER_LANGUAGE&currdomain=https%3A%2F%2FSOURCE_HOST&pagetitle=TITLE">
     <script type="application/json">
@@ -2223,8 +2389,8 @@ body.amp-geo-group-eea .message-non-eea,
 </amp-state> -->
 
 <!-- <amp-state id="siqWatch" credentials="omit"
-    data-amp-replace="SOURCE_URL TITLE TIMEZONE AVAILABLE_SCREEN_WIDTH AVAILABLE_SCREEN_HEIGHT BROWSER_LANGUAGE TIMESTAMP"
-    [src]="'https://vts.zohopublic.com/watch?x-e=' + siqEmbed[0].objString.widgetobj.embedname + '&x-s=' + siqEmbed[0].objString.widgetobj.screenname + '&lsid=' + siqEmbed[0].objString.widgetobj.lsid + '&cpage=SOURCE_URL&ptitle=TITLE&gmttime=TIMEZONE&resolution=AVAILABLE_SCREEN_WIDTHxAVAILABLE_SCREEN_HEIGHT&lang_embed=BROWSER_LANGUAGE&con_id=TIMESTAMP&nocache=TIMESTAMP&connection_count=1'">
+    data-amp-replace="SOURCE_URL TITLE TIMEZONE SCREEN_WIDTH SCREEN_HEIGHT BROWSER_LANGUAGE TIMESTAMP"
+    [src]="'https://vts.zohopublic.com/watch?x-e=' + siqEmbed[0].objString.widgetobj.embedname + '&x-s=' + siqEmbed[0].objString.widgetobj.screenname + '&lsid=' + siqEmbed[0].objString.widgetobj.lsid + '&cpage=SOURCE_URL&ptitle=TITLE&gmttime=TIMEZONE&resolution=SCREEN_WIDTHxSCREEN_HEIGHT&lang_embed=BROWSER_LANGUAGE&con_id=TIMESTAMP&nocache=TIMESTAMP&connection_count=1'">
 </amp-state> -->
 
 <!--
@@ -2385,19 +2551,21 @@ body.amp-geo-group-eea .message-non-eea,
                     target="_top"
                     action-xhr="https://formoid.net/api/amp-form/push"
                     data-form-title="Registration Form"
-                    on="valid: AMP.setState({});invalid: AMP.setState({})">
+                    on="verify: AMP.setState({});valid: AMP.setState({});invalid: AMP.setState({})">
                     <input type="hidden" name="email" data-form-email="true" value="nXkpVOM9yFOsRWGHQR4hPrGvbo0pWq7KIoA2bJLlU3VBzFE049jpjS73KEZuytnWWwJt2jNOLRCfPuPIKVW0j4/Dyb7S1xd8jrm2V1heZENR/7SyVr2BorkMpbOgx5U+">
                     <div class="mbr-form-row">
                         <div class="field mbr-col-sm-12 mbr-col-md-12 mbr-col-lg-12" data-for="form[data][2][1]">
-                            <input type="hidden" name="form[data][2][0]" value="Trips" id="form[data][2][0]-contacts2-6" data-form-field="">
+                            <input type="hidden" name="form[data][2][0]" value="Destinations" id="form[data][2][0]-contacts2-6" data-form-field="">
                             <div class="mbr-col-lg-7 mbr-col-md-10 mbr-col-sm-12 mbr-m-auto">
                                 <amp-selector multiple
                                     layout="container"
                                     class="radio-selector"
                                     name="form[data][2][1]"
+                                    id="destinations-selector"
                                     on="select: AMP.setState({
-                                        selectedOption: event.targetOption,
-                                        allSelectedOptions: event.selectedOptions
+                                        destLastSelectedOption: event.targetOption,
+                                        destSelectedOptions: event.selectedOptions,
+                                        destSelectedOptionsCsv: event.selectedOptions.join(',')
                                       })"> 
                                     <div option="Komodo">Bali to Komodo Island</div>
                                     <div option="Raja-ampat">Raja Ampat</div>
@@ -2410,13 +2578,13 @@ body.amp-geo-group-eea .message-non-eea,
                     <div class="mbr-form-row">
                         <div class="field mbr-col-sm-12 mbr-col" data-for="form[data][0][1]">
                             <input type="hidden" name="form[data][0][0]" value="Name" id="form[data][1][0]-contacts2-6" data-form-field="">
-                            <input class="field-input display-4" type="text" name="form[data][0][1]" data-form-field="Name" placeholder="Name" required="" id="form[data][1][1]-contacts2-6" on="input-debounced: AMP.setState({ name: event.value })">
+                            <input class="field-input display-4" type="text" name="form[data][0][1]" data-form-field="Name" placeholder="Name" required="" id="form[data][1][1]-contacts2-6" on="input-debounced: AMP.setState({ inputName: event.value })">
                         </div>
                     </div>
                    <div class="mbr-form-row">
                         <div class="field mbr-col-sm-12 mbr-col" data-for="form[data][1][1]">
                             <input type="hidden" name="form[data][1][0]" value="Email" id="form[data][0][0]-contacts2-6" data-form-field="">
-                            <input class="field-input display-4" type="email" name="form[data][1][1]" data-form-field="Email" placeholder="Email" required="" id="form[data][0][1]-contacts2-6" on="input-debounced: AMP.setState({ email: event.value })">
+                            <input class="field-input display-4" type="email" name="form[data][1][1]" data-form-field="Email" placeholder="Email" required="" id="form[data][0][1]-contacts2-6" on="input-debounced: AMP.setState({ inputEmail: event.value })">
                         </div>
                     </div>
                     <div class="mbr-form-row">
@@ -2612,7 +2780,7 @@ body.amp-geo-group-eea .message-non-eea,
             
             <ul class="navbar-nav nav-dropdown" data-app-modern-menu="true"><li class="nav-item dropdown open">
                     <a class="nav-link link text-primary dropdown-toggle display-7" data-toggle="dropdown-submenu" aria-expanded="true">
-                        Trips</a>
+                        Destinations</a>
                     <div class="dropdown-menu">
                         <a class="text-primary dropdown-item display-7" href="https://seatrekbali.com">Komodo</a>
                         <a class="text-primary dropdown-item display-7" href="https://seatrekbali.com">Raja Ampat</a>
@@ -2663,7 +2831,7 @@ body.amp-geo-group-eea .message-non-eea,
                 }
             },
             "buttonClick": {
-                "selector":".btn-primary",
+                "selector": ".btn-primary",
                 "on": "click",
                 "request": "event",
                 "vars": {
