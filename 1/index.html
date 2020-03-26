@@ -2299,6 +2299,14 @@ body.amp-geo-group-eea .message-non-eea,
                     "uvid": "{{_zldt}}"
                 },
                 "triggers": {
+                    "trackSession": {
+                        "on": "ini-load",
+                        "request": "event",
+                        "extraUrlParams": {
+                            "data": "{\"opr\":\"ack\",\"uvid\":\"${uvid}\",\"siq_id\":\"${siq_id}\",\"event_time\":\"${timestamp}\"}",
+                            "seqno": "-1"
+                        }
+                    },
                     "trackPageview": {
                         "on": "visible",
                         "request": "event",
@@ -2306,23 +2314,56 @@ body.amp-geo-group-eea .message-non-eea,
                             "eventName": "Pageview"
                         },
                         "extraUrlParams": {
-                            "data": "{\"opr\":\"ack\",\"uvid\":\"${uvid}\",\"siq_id\":\"${siq_id}\",\"event_time\":\"${timestamp}\"}",
-                            "seqno": "-1"
+                            "data": "{\"opr\":\"customaction\",\"action\":{\"field\":\"${eventName}\",\"value\":{\"ad_id\":\"${queryParam(ad_id)}\",\"adset_id\":\"${queryParam(adset_id)}\",\"campaign_id\":\"${queryParam(campaign_id)}\",\"campaign_name\":\"${queryParam(campaign_name)}\",\"placement\":\"${queryParam(placement)}\",\"site_source_name\":\"${queryParam(site_source_name)}\"}},\"navdata\":{\"cpage\":\"${sourceUrl}\",\"ptitle\":\"${title}\",\"lsid\":\"${ampState(_lsid)}\"},\"event_time\":\"${timestamp}\"}",
+                            "seqno": "${requestCount}"
                         }
                     },
-                    "scrollPings": {
-                        "on": "scroll",
-                        "scrollSpec": {
-                        "verticalBoundaries": [25, 50, 90],
-                        "horizontalBoundaries": [90]
+                    "timerPings": {
+                        "on": "timer",
+                        "timerSpec": {
+                            "immediate": false,
+                            "interval": 20
                         },
                         "request": "event"
+                    },
+                    "viewDestinations": {
+                        "on": "visible",
+                        "selector": "#features",
+                        "visibilitySpec": {
+                            "continuousTimeMin": 1000
+                        },
+                        "request": "event",
+                        "vars": {
+                            "eventName": "ViewContent",
+                            "content_type": "Info",
+                            "content_name": "Destinations List"
+                        },
+                        "extraUrlParams": {
+                            "data": "{\"opr\":\"customaction\",\"action\":{\"field\":\"${eventName}\",\"value\":{\"content_name\":\"${content_name}\",\"content_type\":\"${content_type}\"}},\"navdata\":{\"cpage\":\"${sourceUrl}\",\"ptitle\":\"${title}\",\"lsid\":\"${ampState(_lsid)}\"},\"event_time\":\"${timestamp}\"}",
+                            "seqno": "${requestCount}"
+                        }
+                    },
+                    "viewTestimonials": {
+                        "on": "visible",
+                        "selector": "#testimonials",
+                        "visibilitySpec": {
+                            "continuousTimeMin": 5000
+                        },
+                        "request": "event",
+                        "vars": {
+                            "eventName": "ViewContent",
+                            "content_type": "Info",
+                            "content_name": "Testimonials List"
+                        },
+                        "extraUrlParams": {
+                            "data": "{\"opr\":\"customaction\",\"action\":{\"field\":\"${eventName}\",\"value\":{\"content_name\":\"${content_name}\",\"content_type\":\"${content_type}\"}},\"navdata\":{\"cpage\":\"${sourceUrl}\",\"ptitle\":\"${title}\",\"lsid\":\"${ampState(_lsid)}\"},\"event_time\":\"${timestamp}\"}",
+                            "seqno": "${requestCount}"
+                        }
                     },
                     "formSubmit": {
                         "on": "amp-form-submit",
                         "request": "event",
                         "vars": {
-                            "eventName": "CompleteRegistration",
                             "destInterests": "${ampState(destSelectedOptionsCsv)}"
                         },
                         "extraUrlParams": {
@@ -2330,24 +2371,30 @@ body.amp-geo-group-eea .message-non-eea,
                             "seqno": "${requestCount}"
                         }
                     },
-                    "selectorClick": {
-                        "on": "timer",
-                        "timerSpec": {
-                            "immediate": false,
-                            "interval": 3,
-                            "maxTimerLength": 9,
-                            "startSpec": {
-                                "on": "click",
-                                "selector": "#destinations-selector"
-                            }
-                        },
+                    "formSubmitSuccess": {
+                        "on": "amp-form-submit-success",
                         "request": "event",
                         "vars": {
-                            "eventName": "Lead",
-                            "destInterests": "${ampState(destSelectedOptionsCsv)}"
+                            "eventName": "CompleteRegistration",
+                            "status": "success",
+                            "content_name": "Contact Form"
                         },
                         "extraUrlParams": {
-                            "data": "{\"opr\":\"updateinfo\",\"cinfo\":{\"Description\":\"${destInterests}\"},\"event_time\":\"${timestamp}\"}",
+                            "data": "{\"opr\":\"customaction\",\"action\":{\"field\":\"${eventName}\",\"value\":{\"content_name\":\"${content_name}\",\"status\":\"${status}\"}},\"navdata\":{\"cpage\":\"${sourceUrl}\",\"ptitle\":\"${title}\",\"lsid\":\"${ampState(_lsid)}\"},\"event_time\":\"${timestamp}\"}",
+                            "seqno": "${requestCount}"
+                        }
+                    },
+                    "selectorClick": {
+                        "on": "click",
+                        "selector": "#destinations-selector div",
+                        "request": "event",
+                        "vars": {
+                            "eventName": "AddToWishlist",
+                            "content_category": "Destination",
+                            "content_name": "${destination}"
+                        },
+                        "extraUrlParams": {
+                            "data": "{\"opr\":\"customaction\",\"action\":{\"field\":\"${eventName}\",\"value\":{\"content_name\":\"${content_name}\",\"content_category\":\"${content_category}\"}},\"navdata\":{\"cpage\":\"${sourceUrl}\",\"ptitle\":\"${title}\",\"lsid\":\"${ampState(_lsid)}\"},\"event_time\":\"${timestamp}\"}",
                             "seqno": "${requestCount}"
                         }
                     },
@@ -2356,10 +2403,12 @@ body.amp-geo-group-eea .message-non-eea,
                         "on": "click",
                         "request": "event",
                         "vars": {
-                            "eventName": "Lead"
+                            "eventName": "Lead",
+                            "content_category": "Button",
+                            "content_name": "Register Button"
                         },
                         "extraUrlParams": {
-                            "data": "{\"opr\":\"customaction\",\"action\":{\"field\":\"Contacted\",\"value\":{\"ad_name\":\"${queryParam(ad_name)}\",\"campaign_name\":\"${queryParam(campaign_name)}\",\"placement\":\"${queryParam(placement)}\",\"site_source_name\":\"${queryParam(site_source_name)}\"}},\"navdata\":{\"cpage\":\"${sourceUrl}\",\"ptitle\":\"${title}\",\"lsid\":\"${ampState(_lsid)}\"},\"event_time\":\"${timestamp}\"}",
+                            "data": "{\"opr\":\"customaction\",\"action\":{\"field\":\"${eventName}\",\"value\":{\"content_name\":\"${content_name}\",\"content_category\":\"${content_category}\"}},\"navdata\":{\"cpage\":\"${sourceUrl}\",\"ptitle\":\"${title}\",\"lsid\":\"${ampState(_lsid)}\"},\"event_time\":\"${timestamp}\"}",
                             "seqno": "${requestCount}"
                         }
                     }
@@ -2451,7 +2500,7 @@ body.amp-geo-group-eea .message-non-eea,
 
 <section class="features2 mbr-section cid-rT0L4cbGbx" id="features2-5">
 
-    <div class="container">
+    <amp-layout class="container" id="features">
         <div class="mbr-row mbr-jc-c">
             <div class="card mbr-col-sm-12 mbr-col-md-6 mbr-col-lg-3 md-pb">
                 <div class="card-wrapper" tabindex="0">
@@ -2552,7 +2601,6 @@ body.amp-geo-group-eea .message-non-eea,
 
     <div class="container">
         <h2 class="align-center mbr-fonts-style mbr-light display-2">I'm Interested in Trips to...</h2>
-        
 
         <div class="mbr-row mbr-jc-c">
             <div class="mbr-col-lg-7 mbr-col-md-10 mbr-col-sm-12" data-form-type="formoid">
@@ -2577,10 +2625,10 @@ body.amp-geo-group-eea .message-non-eea,
                                         destSelectedOptions: event.selectedOptions,
                                         destSelectedOptionsCsv: event.selectedOptions.join(', ')
                                       })"> 
-                                    <div option="Komodo">Bali to Komodo Island</div>
-                                    <div option="Raja-ampat">Raja Ampat</div>
-                                    <div option="Maluku">Maluku & The Spice Islands</div>
-                                    <div option="Sulawesi">Sulawesi</div>
+                                    <div option="Komodo" data-vars-destination="Komodo">Bali to Komodo Island</div>
+                                    <div option="Raja-ampat" data-vars-destination="Raja-ampat">Raja Ampat</div>
+                                    <div option="Maluku" data-vars-destination="Maluku">Maluku & The Spice Islands</div>
+                                    <div option="Sulawesi" data-vars-destination="Sulawesi">Sulawesi</div>
                                 </amp-selector>
                             </div>
                         </div>
@@ -2648,132 +2696,122 @@ body.amp-geo-group-eea .message-non-eea,
 
 <section class="testimonials2 mbr-section mbr-pt-1 cid-rG0L4cbFep" id="testimonials2-8">
 
-    <div class="mbr-m-auto" style="max-width: 1280px;" role="list">
+    <amp-layout class="mbr-m-auto" style="max-width: 1280px;" role="list" id="testimonials">
         <amp-img amp-fx="fade-in fly-in-left"
-            data-margin-start="40%"
+            data-margin-start="8%"
             data-fly-in-distance="40%"
             data-duration="500ms"
             width="1280"
             height="532"
-            layout="responsive"
-            sizes="(min-width: 1280px) 1280px, 100vw"
+            layout="intrinsic"
             src="assets/images/testimonial-1-1280x532.jpg"
             alt="Testimonial 1"
             role="listitem"
             tabindex="0"></amp-img>
         <div class="mbr-pb-1"></div>
         <amp-img amp-fx="fade-in fly-in-right"
-            data-margin-start="40%"
+            data-margin-start="10%"
             data-fly-in-distance="40%"
             data-duration="500ms"
             width="1280"
             height="306"
-            layout="responsive"
-            sizes="(min-width: 1280px) 1280px, 100vw"
+            layout="intrinsic"
             src="assets/images/testimonial-2-1280x306.jpg"
             alt="Testimonial 2"
             role="listitem"
             tabindex="0"></amp-img>
         <div class="mbr-pb-1"></div>
         <amp-img amp-fx="fade-in fly-in-left"
-            data-margin-start="40%"
+            data-margin-start="30%"
             data-fly-in-distance="40%"
             data-duration="500ms"
             width="1280"
             height="319"
-            layout="responsive"
-            sizes="(min-width: 1280px) 1280px, 100vw"
+            layout="intrinsic"
             src="assets/images/testimonial-3-1280x319.jpg"
             alt="Testimonial 3"
             role="listitem"
             tabindex="0"></amp-img>
         <div class="mbr-pb-1"></div>
         <amp-img amp-fx="fade-in fly-in-right"
-            data-margin-start="40%"
+            data-margin-start="30%"
             data-fly-in-distance="40%"
             data-duration="500ms"
             width="1280"
             height="484"
-            layout="responsive"
-            sizes="(min-width: 1280px) 1280px, 100vw"
+            layout="intrinsic"
             src="assets/images/testimonial-4-1280x484.jpg"
             alt="Testimonial 4"
             role="listitem"
             tabindex="0"></amp-img>
         <div class="mbr-pb-1"></div>
         <amp-img amp-fx="fade-in fly-in-left"
-            data-margin-start="40%"
+            data-margin-start="30%"
             data-fly-in-distance="40%"
             data-duration="500ms"
             width="1280"
             height="470"
-            layout="responsive"
-            sizes="(min-width: 1280px) 1280px, 100vw"
+            layout="intrinsic"
             src="assets/images/testimonial-5-1280x470.jpg"
             alt="Testimonial 5"
             role="listitem"
             tabindex="0"></amp-img>
         <div class="mbr-pb-1"></div>
         <amp-img amp-fx="fade-in fly-in-right"
-            data-margin-start="40%"
+            data-margin-start="30%"
             data-fly-in-distance="40%"
             data-duration="500ms"
             width="1280"
             height="277"
-            layout="responsive"
-            sizes="(min-width: 1280px) 1280px, 100vw"
+            layout="intrinsic"
             src="assets/images/testimonial-6-1280x277.jpg"
             alt="Testimonial 6"
             role="listitem"
             tabindex="0"></amp-img>
         <div class="mbr-pb-1"></div>
         <amp-img amp-fx="fade-in fly-in-left"
-            data-margin-start="40%"
+            data-margin-start="30%"
             data-fly-in-distance="40%"
             data-duration="500ms"
             width="1280"
             height="372"
-            layout="responsive"
-            sizes="(min-width: 1280px) 1280px, 100vw"
+            layout="intrinsic"
             src="assets/images/testimonial-7-1280x372.jpg"
             alt="Testimonial 7"
             role="listitem"
             tabindex="0"></amp-img>
         <div class="mbr-pb-1"></div>
         <amp-img amp-fx="fade-in fly-in-right"
-            data-margin-start="40%"
+            data-margin-start="30%"
             data-fly-in-distance="40%"
             data-duration="500ms"
             width="1280"
             height="597"
-            layout="responsive"
-            sizes="(min-width: 1280px) 1280px, 100vw"
+            layout="intrinsic"
             src="assets/images/testimonial-8-1280x597.jpg"
             alt="Testimonial 8"
             role="listitem"
             tabindex="0"></amp-img>
         <div class="mbr-pb-1"></div>
         <amp-img amp-fx="fade-in fly-in-left"
-            data-margin-start="40%"
+            data-margin-start="30%"
             data-fly-in-distance="40%"
             data-duration="500ms"
             width="1280"
             height="381"
-            layout="responsive"
-            sizes="(min-width: 1280px) 1280px, 100vw"
+            layout="intrinsic"
             src="assets/images/testimonial-9-1280x381.jpg"
             alt="Testimonial 9"
             role="listitem"
             tabindex="0"></amp-img>
         <div class="mbr-pb-1"></div>
         <amp-img amp-fx="fade-in fly-in-right"
-            data-margin-start="40%"
+            data-margin-start="30%"
             data-fly-in-distance="40%"
             data-duration="500ms"
             width="1280"
             height="307"
-            layout="responsive"
-            sizes="(min-width: 1280px) 1280px, 100vw"
+            layout="intrinsic"
             src="assets/images/testimonial-10-1280x307.jpg"
             alt="Testimonial 10"
             role="listitem"
@@ -2853,19 +2891,65 @@ body.amp-geo-group-eea .message-non-eea,
                 "on": "visible",
                 "request": "pageview"
             },
-            "formSubmit": {
-                "on": "amp-form-submit-success",
+            "timerPings": {
+                "on": "timer",
+                "timerSpec": {
+                    "immediate": false,
+                    "interval": 20
+                },
                 "request": "event",
                 "vars": {
-                    "eventName": "CompleteRegistration"
+                    "eventName": "Ping"
+                }
+            },
+            "viewDestinations": {
+                "on": "visible",
+                "selector": "#features",
+                "visibilitySpec": {
+                    "continuousTimeMin": 1000
+                },
+                "request": "eventViewContent",
+                "vars": {
+                    "content_type": "Info",
+                    "content_name": "Destinations List"
+                }
+            },
+            "viewTestimonials": {
+                "on": "visible",
+                "selector": "#testimonials",
+                "visibilitySpec": {
+                    "continuousTimeMin": 5000
+                },
+                "request": "eventViewContent",
+                "vars": {
+                    "content_type": "Info",
+                    "content_name": "Testimonials List"
+                }
+            },
+            "formSubmitSuccess": {
+                "on": "amp-form-submit-success",
+                "request": "eventCompleteRegistration",
+                "vars": {
+                    "status": "success",
+                    "content_name": "Contact Form"
+                }
+            },
+            "selectorClick": {
+                "on": "click",
+                "selector": "#destinations-selector div",
+                "request": "eventAddToWishlist",
+                "vars": {
+                    "content_category": "Destination",
+                    "content_name": "${destination}"
                 }
             },
             "buttonClick": {
-                "selector": ".btn-primary",
                 "on": "click",
-                "request": "event",
+                "selector": ".btn-primary",
+                "request": "eventLead",
                 "vars": {
-                    "eventName": "Lead"
+                    "content_category": "Button",
+                    "content_name": "Register Button"
                 }
             }
         }
